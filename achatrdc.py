@@ -42,7 +42,7 @@ cur = conn.cursor()
 # configurer webdriver
 capa = DesiredCapabilities.CHROME
 capa["pageLoadStrategy"] = "none"
-driver = webdriver.Chrome(executable_path='./drivers/chromedriver')
+driver = webdriver.Chrome()
 wait = WebDriverWait(driver, 20)
 
 # argument
