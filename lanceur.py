@@ -13,7 +13,7 @@ testsolo = "https://www.rueducommerce.fr/rayon/peripheriques-reseaux-et-wifi-73/
 # Lancer recherche carte dispo RDC
 
 #subprocess.Popen( ["python", "rdc.py", rdc3070, "3070"])
-#subprocess.Popen( ["python", "rdc.py", rdc3080, "3080"]) 
+subprocess.Popen( ["python", "/home/bot/final/rdc.py", rdc3080, "3080"])
 
 # Lancer recherche carte dispo Fnac
 
@@ -21,4 +21,5 @@ testsolo = "https://www.rueducommerce.fr/rayon/peripheriques-reseaux-et-wifi-73/
 
 
 
-subprocess.Popen( ["python", "rdc.py", testsolo, "3070"])
+#subprocess.Popen( ["python", "/home/bot/final/rdc.py", testsolo, "3080"])
+
