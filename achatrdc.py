@@ -5,7 +5,7 @@ import random
 import sys
 import subprocess
 import time
-import mysql.connector 
+import mysql.connector
 
 # subprocess package
 from subprocess import Popen
@@ -33,7 +33,7 @@ try:
     )
 
 except mysql.connector.Error as e:
-    print(f"Error connecting to MariaDB Platform: {e}")
+    print("Error connecting to MariaDB Platform:")
     sys.exit(1)
 
 # Get Cursor
@@ -88,27 +88,26 @@ wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='pl-pm-paypal_3-payBtn
 driver.find_element_by_xpath("//*[@id='pl-pm-paypal_3-payBtn']").click()
 
 # paypal
-#wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='email']")))
-#driver.find_element_by_xpath("//*[@id='email']").send_keys(paypalmail)
-#driver.find_element_by_xpath("//*[@id='btnNext']").click()
-#wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='password']")))
-#driver.find_element_by_xpath("//*[@id='password']").send_keys(paypalmdp)
-#driver.find_element_by_xpath("//*[@id='btnLogin']").click()
-#wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='acceptAllButton']")))
-#driver.find_element_by_xpath("//*[@id='acceptAllButton']").click()
-#wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='payment-submit-btn']")))
+wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='email']")))
+driver.find_element_by_xpath("//*[@id='email']").send_keys(paypalmail)
+driver.find_element_by_xpath("//*[@id='btnNext']").click()
+wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='password']")))
+driver.find_element_by_xpath("//*[@id='password']").send_keys(paypalmdp)
+driver.find_element_by_xpath("//*[@id='btnLogin']").click()
+wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='acceptAllButton']")))
+driver.find_element_by_xpath("//*[@id='acceptAllButton']").click()
+wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='payment-submit-btn']")))
 
-#driver.find_element_by_xpath("//*[@id='payment-submit-btn']").click()
-driver.close()
+driver.find_element_by_xpath("//*[@id='payment-submit-btn']").click()
+driver.quit()
 
-print("GG +1")
 
 credit = int(credit)
 credit = credit - 1
 cur.execute("UPDATE info SET CREDIT = (%s) where ID = (%s)", (credit, iduser))
 conn.commit()
 
-f = open("url.txt", "a")
+f = open("/home/bot/final/url.txt", "a")
 f.write("\n")
 f.write(url)
 f.close()
