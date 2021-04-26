@@ -23,8 +23,8 @@ from selenium.common.exceptions import WebDriverException
 # configurer webdriver
 capa = DesiredCapabilities.CHROME
 capa["pageLoadStrategy"] = "none"
-driver = webdriver.Chrome()
-driver1 = webdriver.Chrome()
+driver = webdriver.Chrome('/usr/bin/chromedriver')
+driver1 = webdriver.Chrome('/usr/bin/chromedriver')
 wait = WebDriverWait(driver, 20)
 wait1 = WebDriverWait(driver1, 20)
 
@@ -33,7 +33,7 @@ base_url = ( sys.argv[1] )
 driver.get(base_url)
 
 # lecture fichier
-openfile = open("url.txt")
+openfile = open("/home/bot/final/url.txt")
 contenu = openfile.read()
 
 # modele
@@ -58,7 +58,20 @@ indispo = "DISPONIBLE"
 indispo = str(indispo)
 
 # ouvrir csv
-with open('dispo.csv', 'w') as csvfile:
+with open('/home/bot/final/dispo.csv', 'w') as csvfile:
+    cwriter = csv.writer(csvfile, delimiter=' ',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+
+    # ouvrir toutes les pages produits
+    products = driver.find_elements_by_css_selector('article')
+    i = 0
+
+    for product in products:
+        url_product = product.find_element_by_css_selector("a").get_attribute('href')
+        i = i + 1
+
+# ouvrir csv
+with open('/home/bot/final/dispo.csv', 'w') as csvfile:
     cwriter = csv.writer(csvfile, delimiter=' ',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
@@ -73,7 +86,6 @@ with open('dispo.csv', 'w') as csvfile:
         # disponibilite
         try:
             prix = product.find_element_by_css_selector("span[class^='item__price']").text.encode('utf-8')
-            prix = str(prix)      
 
         except(NoSuchElementException):
             product_availability = "0"
@@ -83,9 +95,8 @@ with open('dispo.csv', 'w') as csvfile:
         else:
             product_availability = "1"
 
-        
         if product_availability == "1":
-            
+
             driver1.get(url_product)
             wait1.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='rgpd-btn-index-accept']")))
             driver1.find_element_by_xpath("//*[@id='rgpd-btn-index-accept']").click()
@@ -94,13 +105,15 @@ with open('dispo.csv', 'w') as csvfile:
                 if url_product in contenu:
                     pass
                 else:
-                    subprocess.Popen( ["python", "sql.py", url_product, modele, product_price, "rdc"])
+                    subprocess.Popen( ["python", "/home/bot/final/sql.py", url_product, modele, product_price, "rdc"])
+                    print("RCD.py OK")
             except(NoSuchElementException):
                 pass
-        else: 
+        else:
             pass
 
 # fermer les navigateurs
-driver.close()
-driver1.close()
+driver.quit()
+driver1.quit()
 openfile.close()
+        
